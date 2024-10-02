@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const preferredLanguage = document.getElementById("preferred-language");
   const translateChat = document.getElementById("translate-chat");
 
-  // Load saved preferred language
-
+  /**
+   * Load saved preferred language
+   */
   preferredLanguage.addEventListener("change", function () {
     const selectedLanguage = preferredLanguage.value;
 
@@ -12,7 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Function to populate language options
+  /**
+   * Populate language options
+   * @param {Object} languages - The languages object containing langCodes and langNames
+   */
   function populateLanguageOptions(languages) {
     preferredLanguage.innerHTML = ""; // Clear previous options
     const { langCodes, langNames } = languages;
@@ -30,7 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Fetch and populate language options
+  /**
+   * Fetch and populate languages
+   */
   function fetchAndPopulateLanguages() {
     chrome.storage.sync.get(["languages"], ({ languages }) => {
       if (languages && languages.langCodes && languages.langNames) {
@@ -44,7 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchAndPopulateLanguages();
 
-  // Translate current chat
+  /**
+   * Translate current chat
+   */
   translateChat.addEventListener("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { action: "translateChat", language: preferredLanguage.value });
